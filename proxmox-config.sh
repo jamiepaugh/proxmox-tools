@@ -2,11 +2,10 @@
 
 function detect-version() {
 
-	pveversion
-	if [$? -eq 0]; then
-		echo "pveversion ran succesfully\n"
+	if [pveversion]; then
+		echo "pveversion ran succesfully"
 	else
-		echo "pveversion did not run\n"
+		echo "pveversion did not run"
 	fi
 
 }
