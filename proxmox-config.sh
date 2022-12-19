@@ -9,7 +9,7 @@ function detect-version() {
 		echo "pveversion did not run"
 	fi
 
-	proxmox-backup-client
+	proxmox-backup-client benchmark
 	if [$? -eq 0]; then
 		echo "proxmox-backup-client ran succesfully"
 	else
