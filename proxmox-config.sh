@@ -59,6 +59,8 @@ function configure-placeholder-subscription() {
 detect-version
 configure-sources
 configure-placeholder-subscription
+apt update
+apt upgrade -y
 
 finish() {
   result=$?
