@@ -20,8 +20,8 @@ function configure-sources() {
 	# Removes default source list
     # Replaces source list based on Proxmox installation
     local -r  sources=/etc/apt/sources.list 
-    local -r  custom_pbs=/root/pve-tools/custom-sources/pbs-sources.list
-    local -r  custom_pve=/root/pve-tools/custom-sources/pve-sources.list
+    local -r  custom_pbs=./custom-sources/pbs-sources.list
+    local -r  custom_pve=./custom-sources/pve-sources.list
 
     #Check for APT sources file
     if test -f "${sources}"; then
