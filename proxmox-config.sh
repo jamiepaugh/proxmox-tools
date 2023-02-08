@@ -12,7 +12,6 @@ function detect-version() {
 		echo "pveversion did not run"
 		IS_PBS=true
 	fi
-
 }
 
 function configure-sources() {
@@ -42,11 +41,16 @@ function configure-sources() {
     else 
         printf "####\n## Unable to determine Proxmox installation type\n####\n" 
     fi
+}
 
+function disable-subscription-message(){
+	sed -Ezi.bak "s/(Ext.Msg.show\(\{\s+title: gettext\('No valid sub)/void\(\{ \/\/\1/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+	systemctl restart pveproxy.service
 }
 
 detect-version
 configure-sources
+disable-subscription-message
 
 finish() {
   result=$?
