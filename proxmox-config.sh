@@ -51,19 +51,36 @@ function disable-subscription-message(){
 function setup-fail2ban(){
 
     sudo apt install fail2ban
-    cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
-    cp ./fail2ban-files/pve-web-auth.conf /etc/fail2ban/jail.d/
-    cp ./fail2ban-files/pve-web-auth-filter.conf /etc/fail2ban/filter.d/
 
-    # Test regex evaluation
-    fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/pve-web-auth-filter.conf
+    if ${IS_PBS}; then
+        echo "PBS detected"
     
-    # Check jail status
-    sudo systemctl restart fail2ban
-    fail2ban-client status pve-web-auth
+        cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
+        cp ./fail2ban-files/pbs-web-auth.conf /etc/fail2ban/jail.d/
+        cp ./fail2ban-files/pbs-web-auth-filter.conf /etc/fail2ban/filter.d/
 
+        # Test regex evaluation
+        fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/pbs-web-auth-filter.conf
 
+        # Check jail status
+        systemctl restart fail2ban
+        fail2ban-client status pbsweb-auth
+    
+    elif ${IS_PVE}; then
+        echo "PVE detected"
+        cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
+        cp ./fail2ban-files/pve-web-auth.conf /etc/fail2ban/jail.d/
+        cp ./fail2ban-files/pve-web-auth-filter.conf /etc/fail2ban/filter.d/
 
+        # Test regex evaluation
+        fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/pve-web-auth-filter.conf
+
+        # Check jail status
+        systemctl restart fail2ban
+        fail2ban-client status pveweb-auth
+    else
+        printf "####\n## Unable to determine Proxmox installation type\n####\n"
+    fi
 }
 
 detect-version
