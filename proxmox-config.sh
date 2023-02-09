@@ -50,7 +50,10 @@ function disable-subscription-message(){
 
 function setup-fail2ban(){
 
-    sudo apt install fail2ban
+    apt install fail2ban -y
+    cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
+    cp ./fail2ban-files/pve-web-auth.conf /etc/fail2ban/jail.d/
+    cp ./fail2ban-files/pve-web-auth-filter.conf /etc/fail2ban/filter.d/
 
     if ${IS_PBS}; then
         echo "PBS detected"
@@ -64,7 +67,7 @@ function setup-fail2ban(){
 
         # Check jail status
         systemctl restart fail2ban
-        fail2ban-client status pbsweb-auth
+        fail2ban-client status pbs-web-auth
     
     elif ${IS_PVE}; then
         echo "PVE detected"
@@ -77,7 +80,7 @@ function setup-fail2ban(){
 
         # Check jail status
         systemctl restart fail2ban
-        fail2ban-client status pveweb-auth
+        fail2ban-client status pve-web-auth
     else
         printf "####\n## Unable to determine Proxmox installation type\n####\n"
     fi
