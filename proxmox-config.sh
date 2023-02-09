@@ -50,6 +50,7 @@ function disable-subscription-message(){
 
 function setup-fail2ban(){
 
+    apt update
     apt install fail2ban -y
     cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
     cp ./fail2ban-files/pve-web-auth.conf /etc/fail2ban/jail.d/
