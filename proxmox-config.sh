@@ -25,11 +25,11 @@ function configure-sources() {
     if ${IS_PBS}; then
     	echo "Proxmox Backup Server detected"
         cp ${custom_pbs} /etc/apt/sources.list
-	rm /etc/apt/sources.list.d/pve-enterprise.list
+	rm /etc/apt/sources.list.d/pbs-enterprise.list
     elif ${IS_PVE}; then
     	echo "Proxmox Virtual Environment detected"
         cp ${custom_pve} /etc/apt/sources.list
-	rm /etc/apt/sources.list.d/pbs-enterprise.list
+	rm /etc/apt/sources.list.d/pve-enterprise.list
     else 
         printf "####\n## Unable to determine Proxmox installation type\n####\n" 
     fi
@@ -44,10 +44,7 @@ function setup-fail2ban(){
 
     apt update
     apt install fail2ban -y
-    cp ./fail2ban-files/defaults-debian.conf /etc/fail2ban/jail.d/defaults-debian.conf
-    cp ./fail2ban-files/pve-web-auth.conf /etc/fail2ban/jail.d/
-    cp ./fail2ban-files/pve-web-auth-filter.conf /etc/fail2ban/filter.d/
-
+    
     if ${IS_PBS}; then
         echo "PBS detected"
     
