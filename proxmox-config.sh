@@ -22,22 +22,14 @@ function configure-sources() {
     local -r  custom_pbs=./custom-sources/pbs-sources.list
     local -r  custom_pve=./custom-sources/pve-sources.list
 
-    #Check for APT sources file
-    if test -f "${sources}"; then
-    	echo "${sources} exists"
-        rm --recursive --force --verbose ${sources}
-    else
-        echo "${sources} does not exist"
-    fi
-
     if ${IS_PBS}; then
     	echo "Proxmox Backup Server detected"
-        cp ${custom_pbs} /etc/apt/
-        mv /etc/apt/pbs-sources.list /etc/apt/sources.list 
+        cp ${custom_pbs} /etc/apt/sources.list
+	rm /etc/apt/sources.list.d/pve-enterprise.list
     elif ${IS_PVE}; then
     	echo "Proxmox Virtual Environment detected"
-        cp ${custom_pve} /etc/apt/
-        mv /etc/apt/pve-sources.list /etc/apt/sources.list
+        cp ${custom_pve} /etc/apt/sources.list
+	rm /etc/apt/sources.list.d/pbs-enterprise.list
     else 
         printf "####\n## Unable to determine Proxmox installation type\n####\n" 
     fi
