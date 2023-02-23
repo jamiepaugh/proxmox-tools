@@ -54,10 +54,7 @@ function setup-fail2ban(){
 
         # Test regex evaluation
         fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/pbs-web-auth-filter.conf
-
-        # Check jail status
         systemctl restart fail2ban
-        fail2ban-client status pbs-web-auth
     
     elif ${IS_PVE}; then
         echo "PVE detected"
@@ -67,10 +64,7 @@ function setup-fail2ban(){
 
         # Test regex evaluation
         fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/pve-web-auth-filter.conf
-
-        # Check jail status
         systemctl restart fail2ban
-        fail2ban-client status pve-web-auth
     else
         printf "####\n## Unable to determine Proxmox installation type\n####\n"
     fi
